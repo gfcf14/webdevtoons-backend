@@ -1,12 +1,12 @@
-package com.gfcf14.webdevtoons.service;
+package com.gfcf14.webdevtoons.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.gfcf14.webdevtoons.model.Post;
-import com.gfcf14.webdevtoons.repository.PostRepository;
+import com.gfcf14.webdevtoons.models.Post;
+import com.gfcf14.webdevtoons.repositories.PostRepository;
 
 @Service
 public class PostService {

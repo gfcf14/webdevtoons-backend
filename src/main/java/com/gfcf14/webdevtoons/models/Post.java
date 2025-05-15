@@ -1,4 +1,6 @@
-package com.gfcf14.webdevtoons.model;
+package com.gfcf14.webdevtoons.models;
+
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -12,6 +14,9 @@ public class Post {
     private String title;
     private String description;
     private String image; // a url
+
+    @ElementCollection
+    private List<Link> links;
 
     public Post() {}
 
@@ -33,4 +38,7 @@ public class Post {
 
     public String getImage() { return image; }
     public void setImage(String image) { this.image = image; }
+
+    public List<Link> getLinks() { return links; }
+    public void setLinks(List<Link> links) { this.links = links; }
 }

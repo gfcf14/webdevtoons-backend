@@ -1,10 +1,10 @@
-package com.gfcf14.webdevtoons.controller;
+package com.gfcf14.webdevtoons.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gfcf14.webdevtoons.model.Post;
-import com.gfcf14.webdevtoons.service.PostService;
+import com.gfcf14.webdevtoons.models.Post;
+import com.gfcf14.webdevtoons.services.PostService;
 
 import java.util.List;
 
