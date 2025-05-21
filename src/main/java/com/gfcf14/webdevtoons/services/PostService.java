@@ -17,7 +17,7 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return repository.findAll();
+        return repository.findPostsSortedByDate();
     }
 
     public Optional<Post> getPostByDate(String date) {
