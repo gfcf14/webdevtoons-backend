@@ -14,6 +14,7 @@ public class WebdevtoonsApplication {
 		System.setProperty("DB_USER", dotenv.get("DB_USER"));
 		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
 		System.setProperty("FRONT_END_ORIGIN", dotenv.get("FRONT_END_ORIGIN"));
+		System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
 		SpringApplication.run(WebdevtoonsApplication.class, args);
 	}
 

@@ -1,23 +1,23 @@
 package com.gfcf14.webdevtoons.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.gfcf14.webdevtoons.models.Post;
+import com.gfcf14.webdevtoons.security.JwtUtil;
 import com.gfcf14.webdevtoons.services.PostService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
+    @Autowired
+    private JwtUtil jwtUtil;
+
     private final PostService service;
 
     public PostController(PostService service) {
@@ -37,8 +37,21 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
-        return service.createPost(post);
+    public ResponseEntity<?> createPost(
+        @RequestBody Post post,
+        @RequestHeader(value = "Authorization", required = false) String authHeader
+    ) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid token format");
+        }
+
+        String token = authHeader.substring(7); // Remove "Bearer "
+        if (!jwtUtil.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+        }
+
+        service.createPost(post);
+        return ResponseEntity.ok("Post " + post.getTitle() + " successfully created");
     }
 
 }
