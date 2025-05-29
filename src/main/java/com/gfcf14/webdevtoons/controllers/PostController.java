@@ -46,8 +46,8 @@ public class PostController {
         }
 
         String token = authHeader.substring(7); // Remove "Bearer "
-        if (!jwtUtil.isTokenValid(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+        if (!jwtUtil.isTokenValid(token) || !jwtUtil.canPost(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid or expired token");
         }
 
         service.createPost(post);

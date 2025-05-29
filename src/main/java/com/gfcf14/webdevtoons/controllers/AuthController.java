@@ -24,6 +24,9 @@ public class AuthController {
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
+  @Value("${admin.user}")
+  private String adminUser;
+
   @Autowired
   private JwtUtil jwtUtil;
 
@@ -40,11 +43,15 @@ public class AuthController {
     boolean valid = isValidDbUser(request.getUsername(), request.getPassword());
 
     if (valid) {
-      String token = jwtUtil.generateToken(request.getUsername());
+      boolean canPost = adminUser.equals(request.getUsername());
 
-      return ResponseEntity.ok(Map.of("token", token));
-    } else {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+      if (canPost) {
+        String token = jwtUtil.generateToken(request.getUsername(), canPost);
+
+        return ResponseEntity.ok(Map.of("token", token));
+      }
     }
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
   }
 }

@@ -18,11 +18,12 @@ public class JwtUtil {
 
   private static final long TOKEN_TIME_LIMIT = 15 * 60 * 1000; // 15 minutes
 
-  public String generateToken(String username) {
+  public String generateToken(String username, boolean canPost) {
     Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
     return Jwts.builder()
             .setSubject(username)
+            .claim("canPost", canPost)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + TOKEN_TIME_LIMIT))
             .signWith(key, SignatureAlgorithm.HS256)
@@ -46,5 +47,15 @@ public class JwtUtil {
 
   public boolean isTokenValid(String token) {
     return validateTokenAndGetUsername(token) != null;
+  }
+
+  public boolean canPost(String token) {
+    try {
+      Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+      var claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+      return Boolean.TRUE.equals(claims.get("canPost", Boolean.class));
+    } catch (JwtException e) {
+      return false;
+    }
   }
 }
