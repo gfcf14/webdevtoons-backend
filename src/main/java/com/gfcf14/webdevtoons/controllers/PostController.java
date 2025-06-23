@@ -5,6 +5,7 @@ import com.gfcf14.webdevtoons.security.JwtUtil;
 import com.gfcf14.webdevtoons.services.PostService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,9 @@ public class PostController {
         }
 
         service.createPost(post);
-        return ResponseEntity.ok("Post " + post.getTitle() + " successfully created");
+        return ResponseEntity.ok(Map.of(
+            "message", "Post " + post.getTitle() + " successfully created"
+        ));
     }
 
 }
