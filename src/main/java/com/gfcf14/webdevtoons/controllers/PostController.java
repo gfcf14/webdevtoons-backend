@@ -32,7 +32,7 @@ public class PostController {
 
     @GetMapping("/{date}")
     public ResponseEntity<Post> getPost(@PathVariable String date) {
-        return service.getPostByDate(date)
+        return service.findClosestOrEarliest(date)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

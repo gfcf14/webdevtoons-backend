@@ -27,4 +27,9 @@ public class PostService {
     public Post createPost(Post post) {
         return repository.save(post);
     }
+
+    public Optional<Post> findClosestOrEarliest(String date) {
+        return this.repository.findClosestPostOnOrBefore(date)
+            .or(() -> this.repository.findEarliestPost());
+    }
 }
