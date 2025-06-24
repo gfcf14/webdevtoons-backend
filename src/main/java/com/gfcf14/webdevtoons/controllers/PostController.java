@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/webdevtoons/posts")
 public class PostController {
     @Autowired
     private JwtUtil jwtUtil;
